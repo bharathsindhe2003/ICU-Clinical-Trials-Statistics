@@ -1,37 +1,15 @@
-import { useEffect } from "react";
 import Box from "@mui/material/Box";
-import * as echarts from "echarts";
 import TableComponent from "./TableComponent";
 import Heading from "./Heading";
-export default function PLotVDA({ id, data, isVisible = true }) {
-  useEffect(() => {
-    function resizeCharts() {
-      for (let i = 1; i <= 4; i += 1) {
-        const el = document.getElementById(id + i);
-        if (!el) continue;
-
-        const chart = echarts.getInstanceByDom(el);
-        if (chart) {
-          chart.resize();
-        }
-      }
-    }
-
-    // Initial sizing
-    resizeCharts();
-
-    // Resize on window size changes
-    window.addEventListener("resize", resizeCharts);
-    return () => {
-      window.removeEventListener("resize", resizeCharts);
-    };
-  }, [id, isVisible]);
+export default function PLotVDA({ id, data }) {
   const layout = [
     { name: "Bland-Altman Plot", idNumber: 1 },
     { name: "Correlation Plot", idNumber: 2 },
     { name: "Error Distribution", idNumber: 3 },
     { name: "Error Histogram", idNumber: 4 },
+    { name: "Box and Whisker Plot", idNumber: 5 },
   ];
+
   return (
     <Box id={id} sx={{ display: "block" }}>
       <Box
@@ -39,7 +17,7 @@ export default function PLotVDA({ id, data, isVisible = true }) {
           width: "30%",
           marginLeft: "auto",
           marginRight: "auto",
-          mb: 2,
+          mt: 2,
         }}>
         <TableComponent data={data} />
       </Box>
@@ -48,11 +26,10 @@ export default function PLotVDA({ id, data, isVisible = true }) {
           display: "grid",
           gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
           gap: 2,
+          mt: 2,
         }}>
         {layout.map((item) => (
-          <Box
-            key={item.idNumber}
-            sx={{ position: "relative", minWidth: 0, minHeight: { xs: 400, sm: 400 }, border: 1, borderRadius: 2, borderColor: "#bbdefb", mb: item.idNumber === 1 || item.idNumber === 2 ? 1 : 0 }}>
+          <Box key={item.idNumber} sx={{ position: "relative", mt: 2, minWidth: 0, minHeight: { xs: 400, sm: 400 }, border: 1, borderRadius: 2, borderColor: "#bbdefb" }}>
             <Box
               sx={{
                 position: "absolute",

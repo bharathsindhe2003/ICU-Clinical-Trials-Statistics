@@ -108,13 +108,7 @@ function plotVDPVC(main_bar, { time_dist }) {
     if (!main_bar || !time_dist) return;
 
     const weekKeys = Object.keys(time_dist);
-    // .sort((a, b) => {
-    //   const na = parseInt(a.replace(/\D/g, ""), 10) || 0;
-    //   const nb = parseInt(b.replace(/\D/g, ""), 10) || 0;
-    //   return na - nb;
-    // });
 
-    // Convert timestamps to readable dates
     const weekLabels = weekKeys.map((w, idx) => {
       const entry = time_dist[w];
       if (!entry || !entry.tmsp) return `Week ${idx + 1}`;
@@ -133,18 +127,17 @@ function plotVDPVC(main_bar, { time_dist }) {
         return `${d}/${m}`;
       };
 
-      // Example:
-      console.log(formatDate(1704067200)); // "31/Jan" (depending on timestamp)
-
-      if (typeof tmsp === "string" && tmsp.includes("-")) {
-        // Range
-        const [start, end] = tmsp.split("-").map((t) => t.trim());
-        return `${formatDate(start)} - ${formatDate(end)}`;
-      } else if (typeof tmsp === "string" && tmsp.includes("<")) {
-        return `< ${formatDate(tmsp.replace("<", "").trim())}`;
-      } else {
-        // Single timestamp
-        return formatDate(tmsp);
+      if (typeof tmsp === "string") {
+        if (tmsp.includes("-")) {
+          const [start, end] = tmsp.split("-").map((t) => t.trim());
+          return `${formatDate(start)} - ${formatDate(end)}`;
+        } else if (tmsp.includes("<")) {
+          return `< ${formatDate(tmsp.replace("<", "").trim())}`;
+        } else if (tmsp.includes(">")) {
+          return `> ${formatDate(tmsp.replace(">", "").trim())}`;
+        } else {
+          return formatDate(tmsp);
+        }
       }
     });
 
@@ -170,7 +163,6 @@ function plotVDPVC(main_bar, { time_dist }) {
         name: "Date",
         data: weekLabels,
         axisTick: { alignWithLabel: true },
-        // axisLabel: { rotate: 30 }, // rotate if dates are long
       },
       yAxis: {
         type: "value",

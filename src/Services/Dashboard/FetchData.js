@@ -5,7 +5,7 @@ import { orderByKey } from "firebase/database";
 import * as echarts from "echarts";
 import { plotVDPCOT, plotVDPVC, plotVDPHR, plotVDPSPO2, plotVDPRR, plotVDPBP } from "./Echarts/VDP/PlotVDPcharts.js";
 import { plotPCDNOP, plotPCDADMF } from "./Echarts/PCD/PlotPCDcharts.js";
-import { plotVDA1, plotVDA2, plotVDA3, plotVDA4 } from "./Echarts/VCA/PlotVDAChart.js";
+import { plotVDA1, plotVDA2, plotVDA3, plotVDA4, plotVDA5 } from "./Echarts/VCA/PlotVDAChart.js";
 export default async function FetchDatafromFB(setSelectedVital, setLastUpdated, DISPLAY_MODE) {
   try {
     const path = DISPLAY_MODE === 0 ? "/dash_stats_1" : "/dash_stats";
@@ -13,7 +13,10 @@ export default async function FetchDatafromFB(setSelectedVital, setLastUpdated, 
 
     const ecgFolderRef = storageRef(storage, "ecg/");
     // eslint-disable-next-line no-unused-vars
-    const [snapshot, ecgList] = await Promise.all([get(dashStatsQuery), listAll(ecgFolderRef)]);
+    const [snapshot, ecgList] = await Promise.all([
+      get(dashStatsQuery),
+      // listAll(ecgFolderRef)
+    ]);
 
     const snapshotVal = snapshot.val();
     const maxKey = Object.keys(snapshotVal)[0]; // since we limited to last 1, this is the only key
@@ -249,50 +252,60 @@ async function computeSection3Data(data, setSelectedVital) {
     const vda_chart_hr2 = document.getElementById("VDAHR2");
     const vda_chart_hr3 = document.getElementById("VDAHR3");
     const vda_chart_hr4 = document.getElementById("VDAHR4");
+    const vda_chart_hr5 = document.getElementById("VDAHR5");
     plotVDA1(vda_chart_hr1, data?.acc_metrics?.hr?.plots?.ba, VDA_HR, "heart Rate in bpm", "Error");
     plotVDA2(vda_chart_hr2, data?.acc_metrics?.hr?.plots?.corr, "Measured Heart Rate", "Reference Heart Rate");
     plotVDA3(vda_chart_hr3, data?.acc_metrics?.hr?.plots?.ed, "", "Heart Rate in bpm");
     plotVDA4(vda_chart_hr4, data?.acc_metrics?.hr?.plots?.eh, "Error in bpm", "Samples");
+    plotVDA5(vda_chart_hr5, data?.acc_metrics?.hr?.plots?.bwp, "Error in bpm", "Samples");
 
     // SPO2
     const vda_chart_spo21 = document.getElementById("VDASPO21");
     const vda_chart_spo22 = document.getElementById("VDASPO22");
     const vda_chart_spo23 = document.getElementById("VDASPO23");
     const vda_chart_spo24 = document.getElementById("VDASPO24");
+    const vda_chart_spo25 = document.getElementById("VDASPO25");
     plotVDA1(vda_chart_spo21, data?.acc_metrics?.spo2?.plots?.ba, VDA_SPO2, "SPO2 in %", "Error");
     plotVDA2(vda_chart_spo22, data?.acc_metrics?.spo2?.plots?.corr, "Measured SPO2", "Reference SPO2");
     plotVDA3(vda_chart_spo23, data?.acc_metrics?.spo2?.plots?.ed, "", "SPO2");
     plotVDA4(vda_chart_spo24, data?.acc_metrics?.spo2?.plots?.eh, "Error in %", "Samples");
+    plotVDA5(vda_chart_spo25, data?.acc_metrics?.spo2?.plots?.bwp, "Error in %", "Samples");
 
     // RR
     const vda_chart_rr1 = document.getElementById("VDARR1");
     const vda_chart_rr2 = document.getElementById("VDARR2");
     const vda_chart_rr3 = document.getElementById("VDARR3");
     const vda_chart_rr4 = document.getElementById("VDARR4");
+    const vda_chart_rr5 = document.getElementById("VDARR5");
     plotVDA1(vda_chart_rr1, data?.acc_metrics?.rr?.plots?.ba, VDA_RR, "Respiratory Rate in bpm", "Error");
     plotVDA2(vda_chart_rr2, data?.acc_metrics?.rr?.plots?.corr, "Measured Respiratory Rate", "Reference Respiratory Rate");
     plotVDA3(vda_chart_rr3, data?.acc_metrics?.rr?.plots?.ed, "", "Respiratory Rate in bpm");
     plotVDA4(vda_chart_rr4, data?.acc_metrics?.rr?.plots?.eh, "Error in bpm", "Samples");
+    plotVDA5(vda_chart_rr5, data?.acc_metrics?.rr?.plots?.bwp, "Error in bpm", "Samples");
 
     // SBP
     const vda_chart_sbp1 = document.getElementById("VDASBP1");
     const vda_chart_sbp2 = document.getElementById("VDASBP2");
     const vda_chart_sbp3 = document.getElementById("VDASBP3");
     const vda_chart_sbp4 = document.getElementById("VDASBP4");
+    const vda_chart_sbp5 = document.getElementById("VDASBP5");
     plotVDA1(vda_chart_sbp1, data?.acc_metrics?.sbp?.plots?.ba, VDA_SBP, "Refrence SBP", "Error in mmHg");
     plotVDA2(vda_chart_sbp2, data?.acc_metrics?.sbp?.plots?.corr, "Measured SBP", "Reference SBP");
     plotVDA3(vda_chart_sbp3, data?.acc_metrics?.sbp?.plots?.ed, "", "SBP in mmHg");
     plotVDA4(vda_chart_sbp4, data?.acc_metrics?.sbp?.plots?.eh, "Error in mmHg", "Samples");
+    plotVDA5(vda_chart_sbp5, data?.acc_metrics?.sbp?.plots?.bwp, "Error in mmHg", "Samples");
 
     // DBP
     const vda_chart_dbp1 = document.getElementById("VDADBP1");
     const vda_chart_dbp2 = document.getElementById("VDADBP2");
     const vda_chart_dbp3 = document.getElementById("VDADBP3");
     const vda_chart_dbp4 = document.getElementById("VDADBP4");
+    const vda_chart_dbp5 = document.getElementById("VDADBP5");
     plotVDA1(vda_chart_dbp1, data?.acc_metrics?.dbp?.plots?.ba, VDA_DBP, "Reference DBP", "Error in mmHg");
     plotVDA2(vda_chart_dbp2, data?.acc_metrics?.dbp?.plots?.corr, "Measured DBP", "Reference DBP");
     plotVDA3(vda_chart_dbp3, data?.acc_metrics?.dbp?.plots?.ed, "", "DBP in mmHg");
     plotVDA4(vda_chart_dbp4, data?.acc_metrics?.dbp?.plots?.eh, "Error in mmHg", "Samples");
+    plotVDA5(vda_chart_dbp5, data?.acc_metrics?.dbp?.plots?.bwp, "Error in mmHg", "Samples");
   } catch (error) {
     console.error("Error in computeSection3Data:", error);
   }
