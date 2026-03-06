@@ -30,7 +30,7 @@ export default function TableComponent({ data, header }) {
               </TableCell>
             </TableRow>
           ) : headerRow ? (
-            <TableRow sx={{ backgroundColor: "gray" }}>
+            <TableRow sx={{ backgroundColor: "#222" }}>
               <TableCell sx={{ color: "white", fontWeight: "bold" }}>{headerRow[0]}</TableCell>
               <TableCell align="right" sx={{ color: "white", fontWeight: "bold" }}>
                 {headerRow[1]}

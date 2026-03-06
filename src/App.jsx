@@ -5,7 +5,7 @@ import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
 function App() {
-  const DISPLAY_MODE = 1;
+  const DISPLAY_MODE = 2;
 
   return (
     <>

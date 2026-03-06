@@ -14,7 +14,7 @@ export default function PLotVDA({ id, table_data, data }) {
     <Box id={id} sx={{ display: "block" }}>
       <Box
         sx={{
-          width: "60%",
+          width: "100%",
           display: "grid",
           gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
           marginLeft: "auto",
@@ -32,32 +32,52 @@ export default function PLotVDA({ id, table_data, data }) {
           gap: 2,
           mt: 2,
         }}>
-        {layout.map((item) => (
-          <Box key={item.idNumber} sx={{ position: "relative", mt: 2, minWidth: 0, minHeight: { xs: 400, sm: 400 }, border: 1, borderRadius: 2, borderColor: "#bbdefb" }}>
+        {layout.map((item, idx) => {
+          const isOdd = layout.length % 2 === 1;
+          const isLast = idx === layout.length - 1;
+          return (
             <Box
+              key={item.idNumber}
               sx={{
-                position: "absolute",
-                top: 0,
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                px: 1.5,
-                bgcolor: "background.paper",
+                position: "relative",
+                mt: 2,
+                minWidth: 0,
+                minHeight: { xs: 400, sm: 400 },
+                border: 1,
                 borderRadius: 2,
+                borderColor: "#bbdefb",
+                ...(isOdd &&
+                  isLast && {
+                    gridColumn: "1 / span 2",
+                    justifySelf: "center",
+                    width: "50%",
+                  }),
               }}>
-              <Heading text={item.name} size="subtitle1" type="normal" />
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                  px: 1.5,
+                  bgcolor: "background.paper",
+                  borderRadius: 2,
+                }}>
+                <Heading text={item.name} size="subtitle1" type="normal" />
+              </Box>
+              <Box
+                id={id + item.idNumber}
+                className="echart-container"
+                sx={{
+                  width: "100%",
+                  height: 400,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}></Box>
             </Box>
-            <Box
-              id={id + item.idNumber}
-              className="echart-container"
-              sx={{
-                width: "100%",
-                height: 400,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}></Box>
-          </Box>
-        ))}
+          );
+        })}
       </Box>
     </Box>
   );
