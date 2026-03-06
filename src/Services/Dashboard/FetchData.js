@@ -185,30 +185,35 @@ async function computeSection3Data(data, setSelectedVital) {
       "Standard deviation σ": data?.acc_metrics?.hr?.table?.sd,
       "Confidence Interval (for mean error)": data?.acc_metrics?.hr?.table?.ci,
       "P value": data?.acc_metrics?.hr?.table?.pv,
+      "RMS Error": data?.acc_metrics?.hr?.table?.rms,
     };
     const VDA_SPO2 = {
       Mean: data?.acc_metrics?.spo2?.table?.me,
       "Standard deviation σ": data?.acc_metrics?.spo2?.table?.sd,
       "Confidence Interval (for mean error)": data?.acc_metrics?.spo2?.table?.ci,
       "P value": data?.acc_metrics?.spo2?.table?.pv,
+      "RMS Error": data?.acc_metrics?.spo2?.table?.rms,
     };
     const VDA_RR = {
       Mean: data?.acc_metrics?.rr?.table?.me,
       "Standard deviation σ": data?.acc_metrics?.rr?.table?.sd,
       "Confidence Interval (for mean error)": data?.acc_metrics?.rr?.table?.ci,
       "P value": data?.acc_metrics?.rr?.table?.pv,
+      "RMS Error": data?.acc_metrics?.rr?.table?.rms,
     };
     const VDA_SBP = {
       Mean: data?.acc_metrics?.sbp?.table?.me,
       "Standard deviation σ": data?.acc_metrics?.sbp?.table?.sd,
       "Confidence Interval (for mean error)": data?.acc_metrics?.sbp?.table?.ci,
       "P value": data?.acc_metrics?.sbp?.table?.pv,
+      "RMS Error": data?.acc_metrics?.sbp?.table?.rms,
     };
     const VDA_DBP = {
       Mean: data?.acc_metrics?.dbp?.table?.me,
       "Standard deviation σ": data?.acc_metrics?.dbp?.table?.sd,
       "Confidence Interval (for mean error)": data?.acc_metrics?.dbp?.table?.ci,
       "P value": data?.acc_metrics?.dbp?.table?.pv,
+      "RMS Error": data?.acc_metrics?.dbp?.table?.rms,
     };
 
     // Build VDA_ECG as { Normal: { uuid1: {...}, uuid2: {...} }, ... } with download URLs

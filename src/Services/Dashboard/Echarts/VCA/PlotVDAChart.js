@@ -493,12 +493,13 @@ function plotVDA4(plot, data, xAxisLabel, yAxisLabel) {
 
 function plotVDA5(plot, data, xAxisLabel, yAxisLabel) {
   try {
-    // if (!plot || !data || !data.categoryLabels || !data.svsBoxData || !data.icuBoxData || !data.svsIcuBoxData) return;
-    const categoryLabels = data.categoryLabels || {};
+    // Ensure data is a single array of 5 values
+    // if (!Array.isArray(data) || data.length !== 5) return;
 
-    const svsBoxData = data.svsBoxData || [];
-    const icuBoxData = data.icuBoxData || [];
-    const svsIcuBoxData = data.svsIcuBoxData || [];
+    // console.log("Data for plotVDA5:", data);
+    // Calculate min and max for x axis, add 5 to both sides
+    const min = data[0] - 5;
+    const max = data[4] + 5;
 
     const chart = echarts.getInstanceByDom(plot) || echarts.init(plot, null, { renderer: "canvas" });
 
@@ -510,81 +511,61 @@ function plotVDA5(plot, data, xAxisLabel, yAxisLabel) {
         },
         formatter(params) {
           if (!params || !params.data || !Array.isArray(params.data)) return "";
-
-          const values = params.data;
-          const category = params.name;
-
+          // console.log("Tooltip params for plotVDA5:", params);
+          const values = params.data.slice(1);
+          // console.log("Tooltip params for plotVDA5:", values);
           const lines = [];
           lines.push(`<b>${params.seriesName}</b>`);
-          if (category != null) {
-            lines.push(`Category: ${category}`);
-          }
           lines.push(`Minimum: ${values[0]}`);
           lines.push(`First quartile (Q1): ${values[1]}`);
           lines.push(`Median: ${values[2]}`);
           lines.push(`Third quartile (Q3): ${values[3]}`);
           lines.push(`Maximum: ${values[4]}`);
-
           return lines.join("<br/>");
         },
       },
-      legend: {
-        data: ["SVS", "ICU", "SVS+ICU"],
-        top: 10,
-        right: 10,
-      },
       grid: {
-        top: "15%",
-        left: "8%",
-        right: "4%",
-        bottom: "15%",
+        top: "25%",
+        left: "10%",
+        right: "10%",
+        bottom: "25%",
         containLabel: true,
       },
       xAxis: {
         type: "value",
-        name: yAxisLabel,
+        min: min,
+        max: max,
+        name: xAxisLabel,
         nameLocation: "middle",
         nameGap: 30,
+        axisLabel: {
+          formatter: function (val) {
+            return val;
+          },
+        },
       },
       yAxis: {
         type: "category",
-        name: xAxisLabel,
-        nameLocation: "middle",
-        nameGap: 40,
-        data: categoryLabels,
-        axisTick: { alignWithLabel: true },
+        data: [""],
+        axisLine: { show: false },
+        axisTick: { show: false },
+        axisLabel: { show: false },
+        splitLine: { show: false },
       },
       series: [
         {
-          name: "SVS",
+          name: "Box",
           type: "boxplot",
-          data: svsBoxData,
+          data: [data],
           itemStyle: {
             color: "#42a5f5",
             borderColor: "#1e88e5",
           },
-        },
-        {
-          name: "ICU",
-          type: "boxplot",
-          data: icuBoxData,
-          itemStyle: {
-            color: "#9ccc65",
-            borderColor: "#7cb342",
-          },
-        },
-        {
-          name: "SVS+ICU",
-          type: "boxplot",
-          data: svsIcuBoxData,
-          itemStyle: {
-            color: "#ffb74d",
-            borderColor: "#fb8c00",
-          },
+          boxWidth: [40, 60],
+          // horizontal orientation is achieved by value xAxis and category yAxis
         },
       ],
     };
-
     chart.setOption(option, true);
   } catch (error) {
     console.error("Error in plotVDA5:", error);

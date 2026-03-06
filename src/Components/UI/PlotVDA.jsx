@@ -1,25 +1,29 @@
 import Box from "@mui/material/Box";
 import TableComponent from "./TableComponent";
 import Heading from "./Heading";
-export default function PLotVDA({ id, data }) {
+export default function PLotVDA({ id, table_data, data }) {
   const layout = [
     { name: "Bland-Altman Plot", idNumber: 1 },
-    { name: "Correlation Plot", idNumber: 2 },
+    { name: "Box and Whisker Plot", idNumber: 5 },
     { name: "Error Distribution", idNumber: 3 },
     { name: "Error Histogram", idNumber: 4 },
-    { name: "Box and Whisker Plot", idNumber: 5 },
+    { name: "Correlation Plot", idNumber: 2 },
   ];
 
   return (
     <Box id={id} sx={{ display: "block" }}>
       <Box
         sx={{
-          width: "30%",
+          width: "60%",
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
           marginLeft: "auto",
           marginRight: "auto",
+          gap: 2,
           mt: 2,
         }}>
-        <TableComponent data={data} />
+        <TableComponent data={table_data} />
+        <TableComponent data={data} header={"Clinical Trials Accuracy"} />
       </Box>
       <Box
         sx={{
@@ -28,8 +32,22 @@ export default function PLotVDA({ id, data }) {
           gap: 2,
           mt: 2,
         }}>
-        {layout.map((item) => (
-          <Box key={item.idNumber} sx={{ position: "relative", mt: 2, minWidth: 0, minHeight: { xs: 400, sm: 400 }, border: 1, borderRadius: 2, borderColor: "#bbdefb" }}>
+        {layout.map((item, idx) => (
+          <Box
+            key={item.idNumber}
+            sx={{
+              position: "relative",
+              mt: 2,
+              minWidth: 0,
+              minHeight: { xs: 400, sm: 400 },
+              border: 1,
+              borderRadius: 2,
+              borderColor: "#bbdefb",
+              ...(idx === layout.length - 1 && {
+                gridColumn: { xs: "auto", sm: "1 / -1" },
+                justifySelf: { xs: "auto", sm: "center" },
+              }),
+            }}>
             <Box
               sx={{
                 position: "absolute",
