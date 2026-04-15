@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react-swc";
 
 // add ip base path for gh pages deployment
 export default defineConfig({
-  base: "/ICU-Clinical-Trials-Dashboard/",
+  base: "/ICU-Clinical-Trials-Statistics/",
   plugins: [react()],
   server: {
     host: "0.0.0.0",
