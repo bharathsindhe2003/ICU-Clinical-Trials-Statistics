@@ -30,6 +30,8 @@ function clampZoom(value) {
   return Math.min(2.5, Math.max(0.8, value));
 }
 
+const VIEWPORT_HEIGHT = { xs: 320, sm: 380, md: 460 };
+
 function PDFViewport({ title, url, type }) {
   const defaultCropMode = "fit";
   const defaultZoom = type === 1 ? 2 : 1;
@@ -150,7 +152,7 @@ function PDFViewport({ title, url, type }) {
       <Box
         sx={{
           position: "relative",
-          height: { xs: 420, md: 640 },
+          height: VIEWPORT_HEIGHT,
           overflow: "hidden",
           bgcolor: "#dfeef6",
         }}>
@@ -187,7 +189,7 @@ function PDFViewport({ title, url, type }) {
               transformOrigin: type === 1 ? "center bottom" : "center center",
               visibility: loading ? "hidden" : "visible",
               transition: "transform 220ms ease",
-              overflow: "auto"
+              overflow: "auto",
             }}
             title={`${title}-pdf`}
             onLoad={() => setLoading(false)}
@@ -217,7 +219,7 @@ export default function ECG({ pdfData, isVisible }) {
   }
 
   return (
-    <Box sx={{ height: { xs: "70vh", md: "100vh" }, overflowY: "hidden", overflowX: "auto", overscrollBehavior: "contain" }}>
+    <Box sx={{ width: "100%", overflowY: "hidden", overflowX: "auto", overscrollBehavior: "contain" }}>
       {/* Navigation and preview row */}
       <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2, mb: 3, justifyContent: "center" }}>
         {/* Left navigation button */}
@@ -263,7 +265,7 @@ export default function ECG({ pdfData, isVisible }) {
         </Box>
       </Box>
       {/* Show full PDFs for selected UUID */}
-      <Box sx={{ height: { xs: "100vh", md: "70vh" }, overscrollBehavior: "contain" }}>
+      <Box sx={{ width: "100%", overscrollBehavior: "contain" }}>
         {activeUuid && pdfData[activeUuid] && (
           <Box
             sx={{
@@ -273,10 +275,10 @@ export default function ECG({ pdfData, isVisible }) {
               justifyContent: "center",
               alignItems: "stretch",
               mt: 2,
-              height: "100%",
+              width: "100%",
             }}>
             <PDFViewport key={`svs-${activeUuid}`} url={pdfData[activeUuid].svs_pdfURL} type={0} />
-            <PDFViewport key={`icu-${activeUuid}`} url={pdfData[activeUuid].icu_pdfURL} type={2} />
+            <PDFViewport key={`icu-${activeUuid}`} url={pdfData[activeUuid].icu_pdfURL} type={3} />
           </Box>
         )}
       </Box>
