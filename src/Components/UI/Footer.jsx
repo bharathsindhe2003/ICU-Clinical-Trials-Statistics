@@ -14,12 +14,13 @@ export default function Footer() {
         borderRadius: 2,
         background: "transparent",
         color: "text.secondary",
-      }}>
+      }}
+    >
       <Typography variant="body2" color="text.secondary">
         © Copyright Samasti Health Technologies Ltd. All Rights Reserved
       </Typography>
       <Typography variant="body2" color="text.secondary">
-        Version 0.1.14
+        Version 0.1.15
       </Typography>
     </Box>
   );

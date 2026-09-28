@@ -247,6 +247,7 @@ async function computeSection3Data(data, setSelectedVital) {
       "Confidence Interval (for mean error)": data?.acc_metrics?.hr?.table?.ci,
       "P value": data?.acc_metrics?.hr?.table?.pv,
       "RMS Error": data?.acc_metrics?.hr?.table?.rms,
+      "Proportion of samples within ±4 BPM": data?.acc_metrics?.hr?.table?.prop,
     };
     const VDA_SPO2 = {
       Mean: data?.acc_metrics?.spo2?.table?.me,
@@ -254,6 +255,7 @@ async function computeSection3Data(data, setSelectedVital) {
       "Confidence Interval (for mean error)": data?.acc_metrics?.spo2?.table?.ci,
       "P value": data?.acc_metrics?.spo2?.table?.pv,
       "RMS Error": data?.acc_metrics?.spo2?.table?.rms,
+      "Proportion of samples within ±4 %": data?.acc_metrics?.spo2?.table?.prop,
     };
     const VDA_RR = {
       Mean: data?.acc_metrics?.rr?.table?.me,
@@ -261,6 +263,7 @@ async function computeSection3Data(data, setSelectedVital) {
       "Confidence Interval (for mean error)": data?.acc_metrics?.rr?.table?.ci,
       "P value": data?.acc_metrics?.rr?.table?.pv,
       "RMS Error": data?.acc_metrics?.rr?.table?.rms,
+      "Proportion of samples within ±2 BPM ": data?.acc_metrics?.rr?.table?.prop,
     };
     const VDA_SBP = {
       Mean: data?.acc_metrics?.sbp?.table?.me,
@@ -268,6 +271,7 @@ async function computeSection3Data(data, setSelectedVital) {
       "Confidence Interval (for mean error)": data?.acc_metrics?.sbp?.table?.ci,
       "P value": data?.acc_metrics?.sbp?.table?.pv,
       "RMS Error": data?.acc_metrics?.sbp?.table?.rms,
+      "Proportion of samples within ±8 mmHg": data?.acc_metrics?.sbp?.table?.prop,
     };
     const VDA_DBP = {
       Mean: data?.acc_metrics?.dbp?.table?.me,
@@ -275,17 +279,18 @@ async function computeSection3Data(data, setSelectedVital) {
       "Confidence Interval (for mean error)": data?.acc_metrics?.dbp?.table?.ci,
       "P value": data?.acc_metrics?.dbp?.table?.pv,
       "RMS Error": data?.acc_metrics?.dbp?.table?.rms,
+      "Proportion of samples within ±8 mmHg": data?.acc_metrics?.dbp?.table?.prop,
     };
 
-    function normalizeDriveImageUrl(url) {
-      if (!url || typeof url !== "string") return url;
-      const trimmed = url.trim();
-      const fileIdMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-      if (fileIdMatch) {
-        return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
-      }
-      return trimmed;
-    }
+    // function normalizeDriveImageUrl(url) {
+    //   if (!url || typeof url !== "string") return url;
+    //   const trimmed = url.trim();
+    //   const fileIdMatch = trimmed.match(/\/file\/d\/([a-zA-Z0-9_-]+)/) || trimmed.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    //   if (fileIdMatch) {
+    //     return `https://drive.google.com/uc?export=view&id=${fileIdMatch[1]}`;
+    //   }
+    //   return trimmed;
+    // }
 
     // Build VDA_ECG as { Normal: { uuid1: {...}, uuid2: {...} }, ... } with download URLs
     const VDA_ECG = { Normal: {}, Tachycardia: {}, Bradycardia: {} };
